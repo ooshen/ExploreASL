@@ -537,6 +537,10 @@ function [x] = xASL_init_LoadDataParameterFile(x, DataParPath, SelectParFile, bU
 			x.D.ROOT = pathstr; % default
 		end
     end
+    
+    if ~isfield(x,'Atlases')
+        x.Atlases = 'TotalGM,DeepWM,Hammers'; % default
+    end
 
     if ~exist(x.D.ROOT, 'dir')
         warning([x.D.ROOT ' didnt exist as folder, trying path of DataPar file']);
