@@ -210,33 +210,6 @@ if ~x.mutex.HasState(StateName{7})
     x.S.InputDataStr = 'qCBF'; % 'SD' 'TT' 'M0' 'R1' 'ASL_HctCohort' 'ASL_HctCorrInd'
 	x.S.InputDataStrNative = 'CBF'; % 'SD' 'TT' 'M0' 'R1' 'ASL_HctCohort' 'ASL_HctCorrInd'
     
-    % Convert atlases to string array
-    [~, dateMatlab] = version;
-    yVersion = str2double(dateMatlab(end-3:end));
-    % yVersion = 2015; % To test backwards compatibility
-    if yVersion<2016
-        % Backwards compatibility
-        atlasesCopy = x.Atlases;
-        itAtlases = 1;
-        stop = false;
-        atlasList = {''};
-        while stop==false
-            idx = strfind(atlasesCopy,';');
-            if ~isempty(idx)
-                idx = idx(1);
-                atlasList{itAtlases,1} = atlasesCopy(1:idx-1);
-                atlasesCopy(1:idx) = '';
-                itAtlases = itAtlases+1;
-            else
-                break
-            end
-        end
-        x.Atlases = string(atlasList);
-    else
-        x.Atlases = x.Atlases(1:end-1); % Remove last ";"
-        x.Atlases = string(split(x.Atlases,';'));
-    end
-    
     % Iterate over atlases
     for iAtlas=1:length(x.Atlases)
         % Defaults
@@ -246,7 +219,7 @@ if ~x.mutex.HasState(StateName{7})
         if x.bNativeSpaceAnalysis
             % Input native space
             x.S.InputNativeSpace = 1;
-            switch x.Atlases(iAtlas)
+            switch x.Atlases{iAtlas}
                 case 'TotalGM'
                     [~,x.S.InputAtlasNativeName] = xASL_fileparts(x.P.Path_TotalGMPop);
                 case 'DeepWM'

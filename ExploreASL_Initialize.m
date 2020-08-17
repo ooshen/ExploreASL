@@ -538,8 +538,17 @@ function [x] = xASL_init_LoadDataParameterFile(x, DataParPath, SelectParFile, bU
 		end
     end
     
-    if ~isfield(x,'Atlases')
-        x.Atlases = 'TotalGM;DeepWM;Hammers;'; % default
+    % Get atlases
+    if isfield(x,'Atlases')
+        try
+            tempAtlases = strsplit(x.Atlases,',');
+            tempAtlases = strrep(strrep(tempAtlases,'{',''),'}','');
+            x.Atlases = strrep(tempAtlases,'''','');
+        catch
+            x.Atlases = {'TotalGM','DeepWM','Hammers'}; % fallback
+        end
+    else
+        x.Atlases = {'TotalGM','DeepWM','Hammers'}; % default
     end
 
     if ~exist(x.D.ROOT, 'dir')
