@@ -540,12 +540,14 @@ function [x] = xASL_init_LoadDataParameterFile(x, DataParPath, SelectParFile, bU
     
     % Get atlases
     if isfield(x,'Atlases')
-        try
-            tempAtlases = strsplit(x.Atlases,',');
-            tempAtlases = strrep(strrep(tempAtlases,'{',''),'}','');
-            x.Atlases = strrep(tempAtlases,'''','');
-        catch
-            x.Atlases = {'TotalGM','DeepWM','Hammers'}; % fallback
+        if ~iscell(x.Atlases) % dont change definition if already cell array
+            try
+                tempAtlases = strsplit(x.Atlases,',');
+                tempAtlases = strrep(strrep(tempAtlases,'{',''),'}','');
+                x.Atlases = strrep(tempAtlases,'''','');
+            catch
+                x.Atlases = {'TotalGM','DeepWM','Hammers'}; % fallback
+            end
         end
     else
         x.Atlases = {'TotalGM','DeepWM','Hammers'}; % default
