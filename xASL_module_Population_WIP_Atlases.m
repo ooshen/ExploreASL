@@ -233,7 +233,7 @@ if ~x.mutex.HasState(StateName{7})
         end
         x.Atlases = string(atlasList);
     else
-        x.Atlases = string(split(x.Atlases,','));
+        x.Atlases = string(split(x.Atlases,';'));
     end
     
     % Iterate over atlases
