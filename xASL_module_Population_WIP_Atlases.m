@@ -233,6 +233,7 @@ if ~x.mutex.HasState(StateName{7})
         end
         x.Atlases = string(atlasList);
     else
+        x.Atlases = x.Atlases(1:end-1); % Remove last ";"
         x.Atlases = string(split(x.Atlases,';'));
     end
     
