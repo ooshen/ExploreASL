@@ -214,15 +214,15 @@ if ~x.mutex.HasState(StateName{7})
     x.Atlases = string(split(x.Atlases,','));
     
     % Iterate over atlases
-    for i=1:length(x.Atlases)
+    for iAtlas=1:length(x.Atlases)
         % Defaults
         x.S.InputNativeSpace = 0;
-        x.S.InputAtlasPath = fullfile(x.D.MapsSPMmodifiedDir,char(strcat(x.Atlases(i),'.nii')));
+        x.S.InputAtlasPath = fullfile(x.D.MapsSPMmodifiedDir,char(strcat(x.Atlases(iAtlas),'.nii')));
         xASL_wrp_GetROIstatistics(x);
         if x.bNativeSpaceAnalysis
             % Input native space
             x.S.InputNativeSpace = 1;
-            switch x.Atlases(i)
+            switch x.Atlases(iAtlas)
                 case 'TotalGM'
                     [~,x.S.InputAtlasNativeName] = xASL_fileparts(x.P.Path_TotalGMPop);
                 case 'DeepWM'
@@ -231,6 +231,16 @@ if ~x.mutex.HasState(StateName{7})
                     [~,x.S.InputAtlasNativeName] = xASL_fileparts(x.P.Path_MNIStructuralPop);
                 case 'Hammers'
                     [~,x.S.InputAtlasNativeName] = xASL_fileparts(x.P.Path_HammersPop);
+                case 'HOcort_CONN'
+                    x.S.IsVolume = true;
+                    x.S.InputDataStr = 'mrc1T1'; % GM volume
+                    x.S.InputAtlasPath = fullfile(x.D.AtlasDir,'HOcort_CONN.nii');
+                    xASL_wrp_GetROIstatistics(x);
+                case 'HOsub_CONN'
+                    x.S.IsVolume = true;
+                    x.S.InputDataStr = 'mrc1T1'; % GM volume
+                    x.S.InputAtlasPath = fullfile(x.D.AtlasDir,'HOsub_CONN.nii');
+                    xASL_wrp_GetROIstatistics(x);
             end
             % ROI statistics
             xASL_wrp_GetROIstatistics(x);
