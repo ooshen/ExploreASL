@@ -539,7 +539,7 @@ function [x] = xASL_init_LoadDataParameterFile(x, DataParPath, SelectParFile, bU
     end
     
     if ~isfield(x,'Atlases')
-        x.Atlases = 'TotalGM,DeepWM,Hammers'; % default
+        x.Atlases = 'TotalGM;DeepWM;Hammers;'; % default
     end
 
     if ~exist(x.D.ROOT, 'dir')

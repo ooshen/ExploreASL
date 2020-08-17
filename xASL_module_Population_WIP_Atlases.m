@@ -211,7 +211,30 @@ if ~x.mutex.HasState(StateName{7})
 	x.S.InputDataStrNative = 'CBF'; % 'SD' 'TT' 'M0' 'R1' 'ASL_HctCohort' 'ASL_HctCorrInd'
     
     % Convert atlases to string array
-    x.Atlases = string(split(x.Atlases,','));
+    [~, dateMatlab] = version;
+    yVersion = str2double(dateMatlab(end-3:end));
+    % yVersion = 2015; % To test backwards compatibility
+    if yVersion<2016
+        % Backwards compatibility
+        atlasesCopy = x.Atlases;
+        itAtlases = 1;
+        stop = false;
+        atlasList = {''};
+        while stop==false
+            idx = strfind(atlasesCopy,';');
+            if ~isempty(idx)
+                idx = idx(1);
+                atlasList{itAtlases,1} = atlasesCopy(1:idx-1);
+                atlasesCopy(1:idx) = '';
+                itAtlases = itAtlases+1;
+            else
+                break
+            end
+        end
+        x.Atlases = string(atlasList);
+    else
+        x.Atlases = string(split(x.Atlases,','));
+    end
     
     % Iterate over atlases
     for iAtlas=1:length(x.Atlases)
