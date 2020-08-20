@@ -195,7 +195,6 @@ if ~x.mutex.HasState(StateName{7})
     x.S.InputDataStr = 'qCBF'; % 'SD' 'TT' 'M0' 'R1' 'ASL_HctCohort' 'ASL_HctCorrInd'
 	x.S.InputDataStrNative = 'CBF'; % 'SD' 'TT' 'M0' 'R1' 'ASL_HctCohort' 'ASL_HctCorrInd'
     
-    
     x.P.Atlas.TotalGM = fullfile(x.D.MapsSPMmodifiedDir, 'TotalGM.nii');
     x.P.Atlas.DeepWM = fullfile(x.D.MapsSPMmodifiedDir, 'DeepWM.nii');
     x.P.Atlas.WholeBrain = fullfile(x.D.MapsSPMmodifiedDir, 'WholeBrain.nii');
@@ -212,26 +211,47 @@ if ~x.mutex.HasState(StateName{7})
     % Iterate over atlases
     for iAtlas=1:length(x.Atlases) % Native names of atlases
         if x.bNativeSpaceAnalysis
+            
             % Write native name of atlas in input atlas field
             x.S.InputAtlasNativeName = x.Atlases{iAtlas};
+            
             % Check if atlas name is in native name list
             if isfield(x.P.Atlas,x.S.InputAtlasNativeName)
             	x.S.InputAtlasPath = x.P.Atlas.(x.S.InputAtlasNativeName);
             end
-            % Check if native space or not
-            if strcmp(x.Atlases{iAtlas},'TotalGM') || ...
-               strcmp(x.Atlases{iAtlas},'DeepWM') || ...
-               strcmp(x.Atlases{iAtlas},'MNI') || ...
-               strcmp(x.Atlases{iAtlas},'Hammers')
+            
+            % Single value with true/false => Set all atlases to native/standard space
+            if length(x.AtlasesNativeSpace)==1
+                % Define vector for all atlases
+                if x.AtlasesNativeSpace
+                    x.AtlasesNativeSpace = true(length(x.Atlases),1);
+                else
+                    x.AtlasesNativeSpace = false(length(x.Atlases),1);
+                end
+            end
+            
+            % Check if vector is not correct => Input can be a vector with true/false for native/standard
+            if ~(length(x.AtlasesNativeSpace)==length(x.Atlases))
+                % Set to default
+                x.AtlasesNativeSpace = true(length(x.Atlases),1);
+            end
+            
+            % Get current space
+            if x.AtlasesNativeSpace(iAtlas)==false
                 x.S.InputNativeSpace = 0;
-            elseif strcmp(x.Atlases{iAtlas},'HO_cortex') || ...
-                   strcmp(x.Atlases{iAtlas},'HO_subcortical')
+            else
                 x.S.InputNativeSpace = 1;
+            end
+            
+            % Check if native space or not
+            if strcmp(x.Atlases{iAtlas},'HO_cortex') || strcmp(x.Atlases{iAtlas},'HO_subcortical')
                 x.S.IsVolume = true;
                 x.S.InputDataStr = 'mrc1T1';
             end
+            
             % ROI statistics
             xASL_wrp_GetROIstatistics(x);
+            
         end
     end
     

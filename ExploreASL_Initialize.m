@@ -552,6 +552,12 @@ function [x] = xASL_init_LoadDataParameterFile(x, DataParPath, SelectParFile, bU
     else
         x.Atlases = {'TotalGM','DeepWM','Hammers'}; % default
     end
+    
+    % Check if native or standard space
+    if ~isfield(x,'AtlasesNativeSpace')
+        % Default/fallback: Set all to native space
+        x.AtlasesNativeSpace = true;
+    end
 
     if ~exist(x.D.ROOT, 'dir')
         warning([x.D.ROOT ' didnt exist as folder, trying path of DataPar file']);
