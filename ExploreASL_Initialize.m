@@ -554,9 +554,9 @@ function [x] = xASL_init_LoadDataParameterFile(x, DataParPath, SelectParFile, bU
     end
     
     % Check if native or standard space
-    if ~isfield(x,'AtlasesNativeSpace')
-        % Default/fallback: Set all to native space
-        x.AtlasesNativeSpace = true;
+    if ~isfield(x,'bGetAtlasROIsInNativeSpace')
+        % Default/fallback: Don't get atlases in native space
+        x.bGetAtlasROIsInNativeSpace = false;
     end
 
     if ~exist(x.D.ROOT, 'dir')
