@@ -60,7 +60,7 @@ function x = xASL_stat_GetAcquisitionTime(x)
                     continue;
                 end
             elseif exist(PathJSON, 'file')
-                Parms = xASL_import_json(PathJSON);
+                Parms = spm_jsonread(PathJSON);
             else
                 Parms = struct; % dummy
             end

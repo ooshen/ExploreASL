@@ -44,7 +44,7 @@ for iSubject=1:length(SubjectList)
         JSONPath = Filelist{iFile};
         [Fpath, jsonFile] = fileparts(JSONPath);
         ParmsPath = fullfile(Fpath, [jsonFile '_parms.mat']);
-        jsonData = xASL_import_json(JSONPath); % read the JSON
+        jsonData = spm_jsonread(JSONPath); % read the JSON
         
         %% Load parms.mat
         if exist(ParmsPath,'file')

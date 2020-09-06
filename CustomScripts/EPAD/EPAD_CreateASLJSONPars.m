@@ -40,7 +40,7 @@ if ~exist(QParmsPath, 'file')
     return;
 end
 
-MotherData = xASL_import_json(QParmsPath); % spm_jsonread
+MotherData = spm_jsonread(QParmsPath); % spm_jsonread
 SubjectList = xASL_adm_GetFileList(AnalysisDir, '^\d{3}EPAD\d*(|_\d*)$', 'FPList', [0 Inf], true);
 
 if isempty(SubjectList)

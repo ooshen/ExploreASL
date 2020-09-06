@@ -81,7 +81,7 @@ for iSubject=1:x.nSubjects
                 continue;
             end
         elseif exist(PathJSON, 'file')
-            Parms = xASL_import_json(PathJSON);
+            Parms = spm_jsonread(PathJSON);
         else
             continue; % skip this iSujectSession as its missing
         end

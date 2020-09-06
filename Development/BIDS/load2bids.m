@@ -221,10 +221,10 @@ for ii = 1:length(fList)
         x = TempVar.(FieldN{1});
     elseif exist([dataParPath,'.json'],'file')
         % JSON import
-        x = xASL_import_json([dataParPath,'.json']);
+        x = spm_jsonread([dataParPath,'.json']);
     elseif exist([dataParPath,'.m'],'file')
 		PathJSON = xASL_init_ConvertM2JSON([dataParPath,'.m']); % convert .m to .json
-		x = xASL_import_json(PathJSON);
+		x = spm_jsonread(PathJSON);
 		xASL_delete([dataParPath,'.m']);
 	end
 	
@@ -711,7 +711,7 @@ for ii = 1:length(fList)
 				end
 
 				% Load the JSON
-				%jsonLocal = xASL_import_json(fullfile(outputPath,importStr{ii}.dirName,'analysis',fSubs{jj},fSes{kk},'ASL4D.json'));
+				%jsonLocal = spm_jsonread(fullfile(outputPath,importStr{ii}.dirName,'analysis',fSubs{jj},fSes{kk},'ASL4D.json'));
 				jsonDicom = spm_jsonread(fullfile(inSesPath,[aslLabel '.json']));
 				if exist(fullfile(inSesPath,[aslLabel '_parms.mat']),'file')
 					imParms = load(fullfile(inSesPath,[aslLabel '_parms.mat']));
