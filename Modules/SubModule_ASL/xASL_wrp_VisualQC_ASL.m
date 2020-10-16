@@ -187,8 +187,8 @@ x               = xASL_adm_ResetVisualizationSlices(x);
 % This can be either the individual map or the template WM map - based on the input parameters
 if isfield(x,'bVisualQCCBFvsGMWMTemplate') && ~isempty(x.bVisualQCCBFvsGMWMTemplate) && x.bVisualQCCBFvsGMWMTemplate == 1
 	% Use the template version for visualization and not the individual one
-	PathpWM = fullfile(x.D.MapsSPMmodifiedDir,'rc2T1.nii');
-	PathpGM = fullfile(x.D.MapsSPMmodifiedDir,'rc1T1.nii');
+	PathpWM = fullfile(x.D.MapsSPMmodifiedDir,'rc2T1_ASL_res.nii');
+	PathpGM = fullfile(x.D.MapsSPMmodifiedDir,'rc1T1_ASL_res.nii');
 	TextpWM = ['Temp_pWM_' x.SUBJECTS{x.iSubject}];
 	TextpGM = ['Temp_pGM_' x.SUBJECTS{x.iSubject}];
 else
